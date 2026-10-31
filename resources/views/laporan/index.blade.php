@@ -12,6 +12,7 @@
                 <th>Wilayah</th>
                 <th>Waktu kejadian</th>
                 <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -23,10 +24,13 @@
                         {{ $item->waktu_kejadian->format('d-m-Y H:i') }}
                     </td>
                     <td>{{ str_replace('_', ' ', $item->status) }}</td>
+                    <td>
+                        <a href="{{ route('laporan.show', $item->id) }}">Detail</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">Belum ada laporan.</td>
+                    <td colspan="5">Belum ada laporan.</td>
                 </tr>
             @endforelse
         </tbody>

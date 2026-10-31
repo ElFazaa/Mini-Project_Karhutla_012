@@ -27,6 +27,31 @@ class LaporanController extends Controller
         return view('laporan.create', compact('wilayah'));
     }
 
+    public function show(Request $request, int $id)
+    {
+        $laporan = $request->user()->laporan()
+            ->with('wilayah')
+            ->findOrFail($id);
+
+        return view('laporan.show', compact('laporan'));
+    }
+
+    public function bukti(Request $request, int $id)
+    {
+        $laporan = $request->user()->laporan()->findOrFail($id);
+
+        abort_unless(
+            $laporan->bukti_path && Storage::disk('local')->exists($laporan->bukti_path),
+            404,
+            'Bukti tidak tersedia.'
+        );
+
+        return Storage::disk('local')->response($laporan->bukti_path, null, [
+            'Cache-Control' => 'private, no-store',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
