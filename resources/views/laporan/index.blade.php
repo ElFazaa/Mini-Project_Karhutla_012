@@ -5,6 +5,8 @@
 
     <a href="{{ route('laporan.create') }}">Buat laporan</a>
 
+    @include('laporan.filter', ['action' => route('laporan.index')])
+
     <table>
         <thead>
             <tr>
@@ -30,7 +32,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">Belum ada laporan.</td>
+                    <td colspan="5">Tidak ada laporan yang sesuai.</td>
                 </tr>
             @endforelse
         </tbody>

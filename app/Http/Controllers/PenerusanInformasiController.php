@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterLaporanRequest;
 use App\Models\Laporan;
 use App\Models\PenerusanInformasi;
+use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PenerusanInformasiController extends Controller
 {
-    public function index()
+    public function index(FilterLaporanRequest $request)
     {
-        $laporan = Laporan::with('wilayah')->latest()->paginate(10);
+        $laporan = Laporan::with('wilayah')
+            ->filter($request->validated())
+            ->latest('id')->paginate(10)->withQueryString();
+        $wilayah = Wilayah::orderBy('nama')->get();
 
-        return view('koordinator.index', compact('laporan'));
+        return view('koordinator.index', compact('laporan', 'wilayah'));
     }
 
     public function show(int $id)

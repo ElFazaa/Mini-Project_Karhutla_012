@@ -3,6 +3,8 @@
 @section('content')
     <h1>Daftar Laporan untuk Pemantau</h1>
 
+    @include('laporan.filter', ['action' => route('pemantau.index')])
+
     <table>
         <thead>
             <tr>
@@ -23,7 +25,7 @@
                     <td><a href="{{ route('pemantau.show', $item->id) }}">Lihat laporan</a></td>
                 </tr>
             @empty
-                <tr><td colspan="5">Belum ada laporan.</td></tr>
+                <tr><td colspan="5">Tidak ada laporan yang sesuai.</td></tr>
             @endforelse
         </tbody>
     </table>

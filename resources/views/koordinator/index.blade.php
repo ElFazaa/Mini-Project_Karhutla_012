@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Daftar Laporan untuk Koordinator</h1>
+    @include('laporan.filter', ['action' => route('koordinator.index')])
     <table>
         <thead>
             <tr>
@@ -18,7 +19,7 @@
                     <td><a href="{{ route('koordinator.show', $item->id) }}">Lihat laporan</a></td>
                 </tr>
             @empty
-                <tr><td colspan="5">Belum ada laporan.</td></tr>
+                <tr><td colspan="5">Tidak ada laporan yang sesuai.</td></tr>
             @endforelse
         </tbody>
     </table>

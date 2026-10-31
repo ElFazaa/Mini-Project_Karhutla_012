@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterLaporanRequest;
 use App\Models\Laporan;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
@@ -10,15 +11,19 @@ use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
-    public function index(Request $request)
+    public function index(FilterLaporanRequest $request)
     {
         $laporan = $request->user()
             ->laporan()
             ->with('wilayah')
-            ->latest()
-            ->paginate(10);
+            ->filter($request->validated())
+            ->latest('id')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('laporan.index', compact('laporan'));
+        $wilayah = Wilayah::orderBy('nama')->get();
+
+        return view('laporan.index', compact('laporan', 'wilayah'));
     }
 
     public function create()
