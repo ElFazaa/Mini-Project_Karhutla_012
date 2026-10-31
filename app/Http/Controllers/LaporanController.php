@@ -28,6 +28,17 @@ class LaporanController extends Controller
         return view('laporan.create', compact('wilayah'));
     }
 
+    public function ringkasanWilayah(int $id)
+    {
+        $wilayah = Wilayah::findOrFail($id);
+        $jumlahAktif = $wilayah->laporan()->where('status', '!=', 'selesai')->count();
+
+        return response()->json([
+            'wilayah' => ['id' => $wilayah->id, 'nama' => $wilayah->nama],
+            'jumlah_laporan_aktif' => $jumlahAktif,
+        ])->header('Cache-Control', 'private, no-store');
+    }
+
     public function show(Request $request, int $id)
     {
         $laporan = $request->user()->laporan()

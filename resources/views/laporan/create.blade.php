@@ -16,7 +16,8 @@
         >
 
         <label for="wilayah_id">Wilayah</label>
-        <select id="wilayah_id" name="wilayah_id" required>
+        <select id="wilayah_id" name="wilayah_id"
+                data-ringkasan-url="{{ url('/wilayah') }}" required>
             <option value="">Pilih wilayah</option>
 
             @foreach ($wilayah as $item)
@@ -28,6 +29,10 @@
                 </option>
             @endforeach
         </select>
+        <p id="ringkasan-wilayah" role="status" aria-live="polite">
+            Pilih wilayah untuk melihat jumlah laporan aktif.
+        </p>
+        <small>Laporan aktif adalah laporan yang prosesnya belum selesai.</small>
 
         <label for="deskripsi">Kondisi yang dilihat</label>
         <textarea id="deskripsi" name="deskripsi" rows="4"
@@ -85,4 +90,6 @@
     <p>
         <a href="{{ route('laporan.index') }}">Kembali ke daftar</a>
     </p>
+
+    <script src="{{ asset('js/ringkasan-wilayah.js') }}" defer></script>
 @endsection

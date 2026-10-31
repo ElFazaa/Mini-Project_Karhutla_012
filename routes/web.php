@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:pelapor'])->group(function () {
+    Route::get('/wilayah/{id}/ringkasan', [LaporanController::class, 'ringkasanWilayah'])
+        ->whereNumber('id')->name('wilayah.ringkasan');
+
     Route::get('/pelapor', function () {
         return redirect()->route('laporan.index');
     })->name('pelapor.index');
