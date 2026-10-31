@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PeninjauanController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -56,9 +57,19 @@ Route::middleware(['auth', 'role:pelapor'])->group(function () {
         ->name('laporan.store');
 });
 
-Route::get('/pemantau', function () {
-    return 'Halaman Pemantau';
-})->middleware('role:pemantau')->name('pemantau.index');
+Route::middleware(['auth', 'role:pemantau'])->group(function () {
+    Route::get('/pemantau', [PeninjauanController::class, 'index'])
+        ->name('pemantau.index');
+
+    Route::get('/pemantau/laporan/{id}', [PeninjauanController::class, 'show'])
+        ->whereNumber('id')->name('pemantau.show');
+
+    Route::get('/pemantau/laporan/{id}/bukti', [PeninjauanController::class, 'bukti'])
+        ->whereNumber('id')->name('pemantau.bukti');
+
+    Route::post('/pemantau/laporan/{id}/peninjauan', [PeninjauanController::class, 'store'])
+        ->whereNumber('id')->name('pemantau.peninjauan.store');
+});
 
 Route::get('/koordinator', function () {
     return 'Halaman Koordinator';

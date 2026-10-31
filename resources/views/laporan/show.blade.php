@@ -32,5 +32,7 @@
         <p>Tidak ada bukti yang dilampirkan.</p>
     @endif
 
+    @include('laporan.riwayat-peninjauan')
+
     <p><a href="{{ route('laporan.index') }}">Kembali ke daftar laporan</a></p>
 @endsection
