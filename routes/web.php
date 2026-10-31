@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -23,9 +25,20 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-Route::get('/pelapor', function () {
-    return 'Halaman Pelapor';
-})->middleware('role:pelapor')->name('pelapor.index');
+Route::middleware(['auth', 'role:pelapor'])->group(function () {
+    Route::get('/pelapor', function () {
+        return redirect()->route('laporan.index');
+    })->name('pelapor.index');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])
+        ->name('laporan.index');
+
+    Route::get('/laporan/buat', [LaporanController::class, 'create'])
+        ->name('laporan.create');
+
+    Route::post('/laporan', [LaporanController::class, 'store'])
+        ->name('laporan.store');
+});
 
 Route::get('/pemantau', function () {
     return 'Halaman Pemantau';
