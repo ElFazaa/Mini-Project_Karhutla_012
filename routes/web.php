@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeninjauanController;
+use App\Http\Controllers\PenerusanInformasiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -71,6 +72,19 @@ Route::middleware(['auth', 'role:pemantau'])->group(function () {
         ->whereNumber('id')->name('pemantau.peninjauan.store');
 });
 
-Route::get('/koordinator', function () {
-    return 'Halaman Koordinator';
-})->middleware('role:koordinator')->name('koordinator.index');
+Route::middleware(['auth', 'role:koordinator'])->group(function () {
+    Route::get('/koordinator', [PenerusanInformasiController::class, 'index'])
+        ->name('koordinator.index');
+
+    Route::get('/koordinator/laporan/{id}', [PenerusanInformasiController::class, 'show'])
+        ->whereNumber('id')->name('koordinator.show');
+
+    Route::get('/koordinator/laporan/{id}/bukti', [PenerusanInformasiController::class, 'bukti'])
+        ->whereNumber('id')->name('koordinator.bukti');
+
+    Route::post('/koordinator/laporan/{id}/penerusan', [PenerusanInformasiController::class, 'store'])
+        ->whereNumber('id')->name('koordinator.penerusan.store');
+
+    Route::post('/koordinator/laporan/{id}/tutup', [PenerusanInformasiController::class, 'tutup'])
+        ->whereNumber('id')->name('koordinator.tutup');
+});

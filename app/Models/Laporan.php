@@ -23,6 +23,7 @@ class Laporan extends Model
     {
         return [
             'waktu_kejadian' => 'datetime',
+            'ditutup_pada' => 'datetime',
         ];
     }
 
@@ -44,5 +45,10 @@ class Laporan extends Model
     public function penerusanInformasi()
     {
         return $this->hasMany(PenerusanInformasi::class, 'laporan_id');
+    }
+
+    public function penutup()
+    {
+        return $this->belongsTo(User::class, 'ditutup_oleh');
     }
 }

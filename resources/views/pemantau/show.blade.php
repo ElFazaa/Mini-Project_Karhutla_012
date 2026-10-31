@@ -36,6 +36,7 @@
     </ul>
 
     @include('laporan.riwayat-peninjauan')
+    @include('laporan.riwayat-penerusan')
 
     @if ($laporan->status === 'baru')
         <h2>Hasil Peninjauan</h2>

@@ -33,6 +33,7 @@
     @endif
 
     @include('laporan.riwayat-peninjauan')
+    @include('laporan.riwayat-penerusan')
 
     <p><a href="{{ route('laporan.index') }}">Kembali ke daftar laporan</a></p>
 @endsection

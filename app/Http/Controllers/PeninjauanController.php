@@ -19,7 +19,9 @@ class PeninjauanController extends Controller
 
     public function show(int $id)
     {
-        $laporan = Laporan::with(['wilayah', 'peninjauan.pemantau'])->findOrFail($id);
+        $laporan = Laporan::with([
+            'wilayah', 'peninjauan.pemantau', 'penerusanInformasi.koordinator', 'penutup',
+        ])->findOrFail($id);
         $laporanTerkait = Laporan::where('wilayah_id', $laporan->wilayah_id)
             ->where('id', '!=', $laporan->id)
             ->latest()->limit(5)->get();

@@ -31,7 +31,7 @@ class LaporanController extends Controller
     public function show(Request $request, int $id)
     {
         $laporan = $request->user()->laporan()
-            ->with(['wilayah', 'peninjauan.pemantau'])
+            ->with(['wilayah', 'peninjauan.pemantau', 'penerusanInformasi.koordinator', 'penutup'])
             ->findOrFail($id);
 
         return view('laporan.show', compact('laporan'));
