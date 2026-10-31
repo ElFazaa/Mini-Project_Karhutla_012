@@ -50,6 +50,10 @@
             <p><a href="{{ route('rekap.index') }}">Rekap laporan</a></p>
         @endif
 
+        @if (auth()->user()->role === 'koordinator')
+            <p><a href="{{ route('wilayah.index') }}">Kelola wilayah</a></p>
+        @endif
+
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Logout</button>

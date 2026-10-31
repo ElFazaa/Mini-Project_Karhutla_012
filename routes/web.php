@@ -5,6 +5,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeninjauanController;
 use App\Http\Controllers\PenerusanInformasiController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -81,6 +82,19 @@ Route::middleware(['auth', 'role:pemantau'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:koordinator'])->group(function () {
+    Route::get('/koordinator/wilayah', [WilayahController::class, 'index'])
+        ->name('wilayah.index');
+    Route::get('/koordinator/wilayah/buat', [WilayahController::class, 'create'])
+        ->name('wilayah.create');
+    Route::post('/koordinator/wilayah', [WilayahController::class, 'store'])
+        ->name('wilayah.store');
+    Route::get('/koordinator/wilayah/{id}/edit', [WilayahController::class, 'edit'])
+        ->whereNumber('id')->name('wilayah.edit');
+    Route::put('/koordinator/wilayah/{id}', [WilayahController::class, 'update'])
+        ->whereNumber('id')->name('wilayah.update');
+    Route::delete('/koordinator/wilayah/{id}', [WilayahController::class, 'destroy'])
+        ->whereNumber('id')->name('wilayah.destroy');
+
     Route::get('/koordinator', [PenerusanInformasiController::class, 'index'])
         ->name('koordinator.index');
 

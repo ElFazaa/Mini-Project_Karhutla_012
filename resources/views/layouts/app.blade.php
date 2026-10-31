@@ -60,6 +60,9 @@
         @if (in_array(auth()->user()->role, ['pemantau', 'koordinator'], true))
             | <a href="{{ route('rekap.index') }}">Rekap laporan</a>
         @endif
+        @if (auth()->user()->role === 'koordinator')
+            | <a href="{{ route('wilayah.index') }}">Kelola wilayah</a>
+        @endif
 
         @if (session('success'))
             <p class="success">{{ session('success') }}</p>
