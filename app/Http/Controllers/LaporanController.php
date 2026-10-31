@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Laporan;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
@@ -50,6 +51,45 @@ class LaporanController extends Controller
             'Cache-Control' => 'private, no-store',
             'X-Content-Type-Options' => 'nosniff',
         ]);
+    }
+
+    public function edit(Request $request, int $id)
+    {
+        $laporan = $request->user()->laporan()->findOrFail($id);
+
+        abort_unless(in_array($laporan->status, ['baru', 'perlu_perbaikan'], true),
+            403, 'Laporan pada status ini tidak dapat diubah.');
+
+        $wilayah = Wilayah::orderBy('nama')->get();
+
+        return view('laporan.edit', compact('laporan', 'wilayah'));
+    }
+
+    public function update(Request $request, int $id)
+    {
+        DB::transaction(function () use ($request, $id) {
+            $laporan = $request->user()->laporan()->lockForUpdate()->findOrFail($id);
+
+            abort_unless(in_array($laporan->status, ['baru', 'perlu_perbaikan'], true),
+                403, 'Laporan pada status ini tidak dapat diubah.');
+
+            $data = $request->validate([
+                'wilayah_id' => ['required', 'integer', 'exists:wilayah,id'],
+                'judul' => ['required', 'string', 'max:150'],
+                'deskripsi' => ['required', 'string', 'max:5000'],
+                'detail_lokasi' => ['required', 'string', 'max:1000'],
+                'latitude' => ['required', 'numeric', 'between:-90,90'],
+                'longitude' => ['required', 'numeric', 'between:-180,180'],
+                'waktu_kejadian' => ['required', 'date'],
+            ]);
+
+            $laporan->fill($data);
+            $laporan->status = 'baru';
+            $laporan->save();
+        });
+
+        return redirect()->route('laporan.show', $id)
+            ->with('success', 'Laporan disimpan dan menunggu peninjauan.');
     }
 
     public function store(Request $request)

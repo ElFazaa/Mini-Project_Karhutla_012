@@ -6,6 +6,9 @@
     <p><strong>Judul:</strong> {{ $laporan->judul }}</p>
     <p><strong>Wilayah:</strong> {{ $laporan->wilayah->nama }}</p>
     <p><strong>Status:</strong> {{ str_replace('_', ' ', $laporan->status) }}</p>
+    @if (in_array($laporan->status, ['baru', 'perlu_perbaikan'], true))
+        <p><a href="{{ route('laporan.edit', $laporan->id) }}">Edit laporan</a></p>
+    @endif
     <p>
         <strong>Waktu kejadian:</strong>
         {{ $laporan->waktu_kejadian->format('d-m-Y H:i') }}

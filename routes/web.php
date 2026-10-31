@@ -44,6 +44,14 @@ Route::middleware(['auth', 'role:pelapor'])->group(function () {
         ->whereNumber('id')
         ->name('laporan.bukti');
 
+    Route::get('/laporan/{id}/edit', [LaporanController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('laporan.edit');
+
+    Route::put('/laporan/{id}', [LaporanController::class, 'update'])
+        ->whereNumber('id')
+        ->name('laporan.update');
+
     Route::post('/laporan', [LaporanController::class, 'store'])
         ->name('laporan.store');
 });
