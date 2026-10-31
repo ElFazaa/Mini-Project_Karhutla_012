@@ -57,6 +57,9 @@
 <body>
     <main>
         <a href="{{ route('dashboard') }}">Beranda</a>
+        @if (in_array(auth()->user()->role, ['pemantau', 'koordinator'], true))
+            | <a href="{{ route('rekap.index') }}">Rekap laporan</a>
+        @endif
 
         @if (session('success'))
             <p class="success">{{ session('success') }}</p>

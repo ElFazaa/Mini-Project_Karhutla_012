@@ -46,6 +46,10 @@
         </p>
         @endif
 
+        @if (in_array(auth()->user()->role, ['pemantau', 'koordinator'], true))
+            <p><a href="{{ route('rekap.index') }}">Rekap laporan</a></p>
+        @endif
+
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Logout</button>

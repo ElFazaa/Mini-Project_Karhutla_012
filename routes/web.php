@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeninjauanController;
 use App\Http\Controllers\PenerusanInformasiController;
+use App\Http\Controllers\RekapController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,6 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
+
+Route::get('/rekap', [RekapController::class, 'index'])
+    ->middleware(['auth', 'role:pemantau,koordinator'])
+    ->name('rekap.index');
 
 Route::middleware(['auth', 'role:pelapor'])->group(function () {
     Route::get('/wilayah/{id}/ringkasan', [LaporanController::class, 'ringkasanWilayah'])
