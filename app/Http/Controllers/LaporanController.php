@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Laporan;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
@@ -36,12 +37,34 @@ class LaporanController extends Controller
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'waktu_kejadian' => ['required', 'date'],
+            'bukti' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
-        $laporan = new Laporan($data);
-        $laporan->pelapor_id = $request->user()->id;
-        $laporan->status = 'baru';
-        $laporan->save();
+        unset($data['bukti']);
+
+        $pathBukti = null;
+
+        if ($request->hasFile('bukti')) {
+            $pathBukti = $request->file('bukti')->store('bukti', 'local');
+
+            if ($pathBukti === false) {
+                throw new \RuntimeException('Bukti gagal disimpan.');
+            }
+        }
+
+        try {
+            $laporan = new Laporan($data);
+            $laporan->pelapor_id = $request->user()->id;
+            $laporan->status = 'baru';
+            $laporan->bukti_path = $pathBukti;
+            $laporan->save();
+        } catch (\Throwable $error) {
+            if ($pathBukti !== null) {
+                Storage::disk('local')->delete($pathBukti);
+            }
+
+            throw $error;
+        }
 
         return redirect()
             ->route('laporan.index')

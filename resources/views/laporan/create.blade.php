@@ -3,7 +3,7 @@
 @section('content')
     <h1>Buat Laporan Karhutla</h1>
 
-    <form method="POST" action="{{ route('laporan.store') }}">
+    <form method="POST" action="{{ route('laporan.store') }}" enctype="multipart/form-data">
         @csrf
 
         <label for="judul">Judul laporan</label>
@@ -69,6 +69,15 @@
             value="{{ old('waktu_kejadian') }}"
             required
         >
+
+        <label for="bukti">Bukti pendukung (opsional)</label>
+        <input
+            type="file"
+            id="bukti"
+            name="bukti"
+            accept=".jpg,.jpeg,.png,.pdf"
+        >
+        <small>JPG/JPEG, PNG, atau PDF. Maksimal 2 MB.</small>
 
         <button type="submit">Kirim laporan</button>
     </form>
