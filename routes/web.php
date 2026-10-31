@@ -22,3 +22,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
+
+Route::get('/pelapor', function () {
+    return 'Halaman Pelapor';
+})->middleware('role:pelapor')->name('pelapor.index');
+
+Route::get('/pemantau', function () {
+    return 'Halaman Pemantau';
+})->middleware('role:pemantau')->name('pemantau.index');
+
+Route::get('/koordinator', function () {
+    return 'Halaman Koordinator';
+})->middleware('role:koordinator')->name('koordinator.index');

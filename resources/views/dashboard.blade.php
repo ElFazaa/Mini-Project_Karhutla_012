@@ -32,6 +32,19 @@
 
         <p>Selamat datang, {{ auth()->user()->name }}.</p>
         <p>Role: {{ auth()->user()->role }}</p>
+        @if (auth()->user()->role === 'pelapor')
+         <p>
+        <a href="{{ route('pelapor.index') }}">Halaman Pelapor</a>
+        </p>
+        @elseif (auth()->user()->role === 'pemantau')
+        <p>
+        <a href="{{ route('pemantau.index') }}">Halaman Pemantau</a>
+        </p>
+        @elseif (auth()->user()->role === 'koordinator')
+        <p>
+        <a href="{{ route('koordinator.index') }}">Halaman Koordinator</a>
+        </p>
+        @endif
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
