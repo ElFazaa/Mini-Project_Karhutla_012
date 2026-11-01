@@ -17,6 +17,11 @@ class AkunDemoSeeder extends Seeder
                 'role' => 'pelapor',
             ],
             [
+                'name' => 'Pelapor Kedua Demo',
+                'email' => 'pelapor2@example.test',
+                'role' => 'pelapor',
+            ],
+            [
                 'name' => 'Pemantau Demo',
                 'email' => 'pemantau@example.test',
                 'role' => 'pemantau',
@@ -35,7 +40,7 @@ class AkunDemoSeeder extends Seeder
 
             $user->name = $data['name'];
             $user->role = $data['role'];
-            $user->password = Hash::make('DemoKarhutla012!');
+            $user->password = Hash::make('DemoKarhutla012');
             $user->save();
         }
     }
