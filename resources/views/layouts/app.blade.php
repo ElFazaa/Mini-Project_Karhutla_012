@@ -62,6 +62,7 @@
         @endif
         @if (auth()->user()->role === 'koordinator')
             | <a href="{{ route('wilayah.index') }}">Kelola wilayah</a>
+            | <a href="{{ route('akun.index') }}">Kelola akun</a>
         @endif
 
         @if (session('success'))

@@ -6,6 +6,7 @@ use App\Http\Controllers\PeninjauanController;
 use App\Http\Controllers\PenerusanInformasiController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -82,6 +83,17 @@ Route::middleware(['auth', 'role:pemantau'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:koordinator'])->group(function () {
+    Route::get('/koordinator/akun', [AkunController::class, 'index'])
+        ->name('akun.index');
+    Route::get('/koordinator/akun/buat', [AkunController::class, 'create'])
+        ->name('akun.create');
+    Route::post('/koordinator/akun', [AkunController::class, 'store'])
+        ->name('akun.store');
+    Route::get('/koordinator/akun/{id}/edit', [AkunController::class, 'edit'])
+        ->whereNumber('id')->name('akun.edit');
+    Route::put('/koordinator/akun/{id}', [AkunController::class, 'update'])
+        ->whereNumber('id')->name('akun.update');
+
     Route::get('/koordinator/wilayah', [WilayahController::class, 'index'])
         ->name('wilayah.index');
     Route::get('/koordinator/wilayah/buat', [WilayahController::class, 'create'])

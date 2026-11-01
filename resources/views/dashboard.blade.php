@@ -52,6 +52,7 @@
 
         @if (auth()->user()->role === 'koordinator')
             <p><a href="{{ route('wilayah.index') }}">Kelola wilayah</a></p>
+            <p><a href="{{ route('akun.index') }}">Kelola akun</a></p>
         @endif
 
         <form method="POST" action="{{ route('logout') }}">
